@@ -279,6 +279,8 @@ namespace GW2_Addon_Manager
             {
                 if (addonConfiguration.Disabled)
                 {
+                    if (!Directory.Exists(Path.Combine(_configurationManager.UserConfig.GamePath, "addons")))
+                        Directory.CreateDirectory(Path.Combine(_configurationManager.UserConfig.GamePath, "addons"));
 
                     if (addon_info.install_mode != "arc")
                     {
