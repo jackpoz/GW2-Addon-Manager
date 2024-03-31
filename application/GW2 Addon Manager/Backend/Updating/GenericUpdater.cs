@@ -57,7 +57,14 @@ namespace GW2_Addon_Manager
         /// </summary>
         private async Task GitCheckUpdate()
         {
-            dynamic release_info = UpdateHelpers.GitReleaseInfo(addon_info.host_url);
+            const bool preRelease = true;
+            const string stableSuffix = "/latest";
+
+            string url = addon_info.host_url;
+            if (preRelease && url.EndsWith(stableSuffix))
+                url = url.Substring(0, url.Length - stableSuffix.Length);
+            
+            dynamic release_info = UpdateHelpers.GitReleaseInfo(url);
             latestVersion = release_info.tag_name;
 
             var currentAddonVersion = _configurationManager.UserConfig.AddonsList.FirstOrDefault(a => a.Name == addon_name);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Windows;
 using GW2_Addon_Manager.App.Configuration;
+using Newtonsoft.Json.Linq;
 
 namespace GW2_Addon_Manager
 {
@@ -45,7 +46,11 @@ namespace GW2_Addon_Manager
             using (var client = UpdateHelpers.GetClient())
             {
                 var release_info_json = client.DownloadStringFromGithubAPI(gitUrl);
-                return JsonConvert.DeserializeObject(release_info_json);
+                var result = JsonConvert.DeserializeObject(release_info_json);
+                if (result is JArray arrayResult)
+                    result = arrayResult[0];
+
+                return result;
             }
 
         }
